@@ -1,9 +1,16 @@
 class Solution:
     def reversePrefix(self, word: str, ch: str) -> str:
-        if ch not in word:
+        stack=[]
+        found=False
+        for i in word:
+            stack.append(i)
+            if i==ch:
+                found=True
+                break
+        if not found:
             return word
-        i=word.index(ch)+1
-        x=list(word)
-        y=[]
-        y[:]=x[:i][::-1]+x[i:]
-        return "".join(y)
+        pre=""
+        while stack:
+            pre+=stack.pop()
+        suffix=word[len(pre):]
+        return pre+suffix
