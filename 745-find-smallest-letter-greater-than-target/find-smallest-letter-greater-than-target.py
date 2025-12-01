@@ -1,9 +1,8 @@
 class Solution:
     def nextGreatestLetter(self, letters: List[str], target: str) -> str:
-        letters.append(target)
         s=set(letters)
-        letters=sorted(s)
-        i=letters.index(target)
-        if i>=len(letters)-1:
-            return letters[0]
-        return letters[i+1]
+        m=ord(target)+1
+        for i in range(m,123):
+            if chr(i) in s:
+                return chr(i)
+        return letters[0]
