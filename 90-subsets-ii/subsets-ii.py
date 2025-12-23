@@ -8,10 +8,10 @@ class Solution:
                 backtrack(path,i+1)
                 path.pop()
         backtrack([],0)
-        res=[sorted(i) for i in result]
+        result=[sorted(i) for i in result]
         sub=[]
-        for i in res:
+        for i in result:
             if i not in sub:
                 sub.append(i)
-        final=sorted(sub,key=tuple)
-        return final
+        sub=sorted(sub,key=tuple)
+        return sub
