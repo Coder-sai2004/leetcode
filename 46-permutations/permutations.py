@@ -1,5 +1,17 @@
-import itertools
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        x=list(itertools.permutations(nums))
-        return x
+        result=[]
+        def backtrack(path,used):
+            if len(nums)==len(path):
+                result.append(path.copy())
+                return
+            for i in range(len(nums)):
+                if used[i]:
+                    continue
+                used[i]=True
+                path.append(nums[i])
+                backtrack(path,used)
+                used[i]=False
+                path.pop()
+        backtrack([],[False]*len(nums))
+        return result
