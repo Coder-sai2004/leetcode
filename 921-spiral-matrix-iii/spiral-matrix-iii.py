@@ -19,13 +19,13 @@ class Solution:
             for phase_index in range(directions):
                 if phase_index==0: #move right once
                     c_col+=1
-                    if c_row<rows and c_col<cols and c_row>=0 and c_col>=0:
+                    if 0 <= c_row < rows and 0 <= c_col < cols:
                         visited_cells.append([c_row,c_col])
                 elif phase_index==1: #moves bottom until it reachs its limit
                     i=0
                     while i<vertical:
                         c_row+=1
-                        if c_row<rows and c_col<cols and c_row>=0 and c_col>=0:
+                        if 0 <= c_row < rows and 0 <= c_col < cols:
                             visited_cells.append([c_row,c_col])
                         i+=1 
                 elif phase_index==2 or phase_index==3 or phase_index==4:
@@ -35,10 +35,10 @@ class Solution:
                         if phase_index==2:    c_col-=1
                         elif phase_index==3:  c_row-=1
                         else:       c_col+=1
-                        if c_row<rows and c_col<cols and c_row>=0 and c_col>=0:
+                        if 0 <= c_row < rows and 0 <= c_col < cols:
                             visited_cells.append([c_row,c_col])
                         j+=1
-                        
+
             #increasing limit after each layer completion
             vertical+=2
             horizontal+=2
