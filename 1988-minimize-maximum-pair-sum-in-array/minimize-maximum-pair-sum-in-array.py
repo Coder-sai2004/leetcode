@@ -3,9 +3,10 @@ class Solution:
         nums.sort()
         i=0
         j=len(nums)-1
-        res=[]
+        mx=0
         while i<j:
-            res.append(nums[i]+nums[j])
+            if nums[i]+nums[j]>mx:
+                mx=nums[i]+nums[j]
             i+=1
             j-=1
-        return max(res)
+        return mx
