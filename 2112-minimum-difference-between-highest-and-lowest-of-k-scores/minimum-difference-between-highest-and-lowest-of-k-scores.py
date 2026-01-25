@@ -4,5 +4,5 @@ class Solution:
         n=len(nums)-k+1
         mi=float('inf')
         for i in range(n):
-            mi=min(mi,max(nums[i:i+k])-min(nums[i:i+k]))
+            mi=min(mi,nums[i:i+k][-1]-nums[i:i+k][0])
         return mi
