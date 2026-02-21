@@ -1,11 +1,20 @@
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
+        x=citations
         res=[]
-        for i in range(len(citations)+1):
-            c=0
-            for j in citations:
-                if i<=j:
-                    c+=1
-            if i<=c:
-                res.append(i)
+        arr=sorted(x,reverse=True)
+        c=0
+        i=0
+        k=len(arr)
+        while i<len(arr):
+            if k<=arr[i]:
+                c+=1
+            else:
+                if k<=c:
+                    res.append(k)
+                i-=1
+                k-=1
+            i+=1
+        if k<=c:
+            res.append(k)
         return max(res)
