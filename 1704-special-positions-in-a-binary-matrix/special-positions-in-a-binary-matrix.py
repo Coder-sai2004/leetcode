@@ -6,7 +6,6 @@ class Solution:
         ans=0
         temp=set()
         row_count,col_count=Counter(),Counter()
-        unique_row,unique_col=[],[]
         for i in range(len(mat)):
             for j in range(len(mat[0])):
                 if mat[i][j]==1:
