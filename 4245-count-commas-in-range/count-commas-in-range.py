@@ -3,6 +3,6 @@ class Solution:
         c=0
         if n<1000:
             return 0
-        for i in range(1000,n+1):
-            c+=1
+        elif n>999 and n<=100000:
+            c=n-999
         return c
