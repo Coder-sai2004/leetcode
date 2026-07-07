@@ -10,12 +10,18 @@ class Solution:
         for i in range(1,len(intervals)):
             cur_mi=intervals[i][0]
             cur_mx=intervals[i][1]
+
+            #if the current intervals is in between the previous intervals
             if cur_mi<mx and cur_mx<mx:
                 if i==n:
                     res.append([mi,mx])
                 continue
+
+            #if the current and previous intervals overlap
             elif cur_mi<=mx:
                 mx=cur_mx
+
+            #if the current and previous intervals not related
             elif mx<cur_mi:
                 res.append([mi,mx])
                 mi=cur_mi
