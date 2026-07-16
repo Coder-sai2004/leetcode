@@ -3,13 +3,10 @@ class Solution:
         arr=sorted(nums)
         d={}
         res=[]
-        
         for i in range(len(arr)):
-            if arr[i]==arr[i-1] and i>0:
-                d[arr[i]]=d[arr[i-1]]
-            else:
-                d[arr[i]]=i
-
+            if arr[i] not in d:
+                d[arr[i]]=i   
+                
         for i in range(len(nums)):
             res.append(d[nums[i]])
         return res
