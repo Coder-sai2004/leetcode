@@ -1,8 +1,8 @@
+from collections import Counter
 class Solution:
     def numIdenticalPairs(self, nums: List[int]) -> int:
-        p=0
-        for i in range(len(nums)):
-            for j in range(i+1,len(nums)):
-                if nums[i]==nums[j]:
-                    p+=1
-        return p
+        x=Counter(nums)
+        ans=0
+        for val in x.values():
+            ans+=(val*(val-1))//2
+        return ans
