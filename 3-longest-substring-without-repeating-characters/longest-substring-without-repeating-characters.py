@@ -5,10 +5,9 @@ class Solution:
         r=0
         mx=0
         while r<len(s):
-            while d and  s[r] in d:
-                del d[s[l]]
-                l+=1
-            d[s[r]]=d.get(s[r],0)+1
-            mx=max(mx,len(d.keys()))
+            if s[r] in d and d[s[r]]>=l:
+                l=d[s[r]]+1
+            d[s[r]]=r
+            mx=max(mx,(r-l)+1)
             r+=1
         return mx
