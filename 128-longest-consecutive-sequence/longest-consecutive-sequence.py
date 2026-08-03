@@ -5,7 +5,6 @@ class Solution:
         nums.sort()
         c=0
         m=1
-        print(nums)
         for i in range(1,len(nums)):
             if nums[i]-1==nums[i-1]:
                 m+=1
