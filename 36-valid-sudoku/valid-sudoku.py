@@ -1,68 +1,101 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        r=[]
-        c=[]
-        b=[]
-        for i in range(len(board)):
-            x={}
-            y={}
-            for j in range(len(board[0])):
-                #calculating row hash table
-                if board[i][j]!='.':
-                    x[board[i][j]]=x.get(board[i][j],0)+1
-                #calculating column hash table
-                if board[j][i]!='.':
-                    y[board[j][i]]=y.get(board[j][i],0)+1
-            r.append(x)
-            c.append(y)
+        # Stores the frequency of digits for every row
+        row_maps = []
 
-        si=0
-        se=0
-        ei=3
-        ee=3
-        for k in range(len(board)):
-            if k!=0:
-                if k%3==0:
-                    si+=3
-                    ei+=3
-                    se=0
-                    ee=3
+        # Stores the frequency of digits for every column
+        column_maps = []
+
+        # Stores the frequency of digits for every 3x3 sub-box
+        box_maps = []
+
+        # Build frequency tables for all rows and columns
+        for row_index in range(len(board)):
+            row_frequency = {}
+            column_frequency = {}
+
+            for col_index in range(len(board[0])):
+                # Count occurrences of digits in the current row
+                if board[row_index][col_index] != '.':
+                    row_frequency[board[row_index][col_index]] = (
+                        row_frequency.get(board[row_index][col_index], 0) + 1
+                    )
+
+                # Count occurrences of digits in the current column
+                if board[col_index][row_index] != '.':
+                    column_frequency[board[col_index][row_index]] = (
+                        column_frequency.get(board[col_index][row_index], 0) + 1
+                    )
+
+            row_maps.append(row_frequency)
+            column_maps.append(column_frequency)
+
+        # Initial boundaries for traversing each 3x3 box
+        box_row_start = 0
+        box_col_start = 0
+        box_row_end = 3
+        box_col_end = 3
+
+        # Build frequency tables for all 3x3 boxes
+        for box_index in range(len(board)):
+            if box_index != 0:
+                # Move to the next row of boxes after every third box
+                if box_index % 3 == 0:
+                    box_row_start += 3
+                    box_row_end += 3
+                    box_col_start = 0
+                    box_col_end = 3
+                # Otherwise move to the next box in the same row
                 else:
-                    se+=3
-                    ee+=3
+                    box_col_start += 3
+                    box_col_end += 3
 
-            z={}
-            #calculating 3*3 box hash table
-            for i in range(si,ei):
-                for j in range(se,ee):
-                    if board[i][j]!='.':
-                        z[board[i][j]]=z.get(board[i][j],0)+1
-            b.append(z)
+            box_frequency = {}
 
-        start1=0
-        start2=0
-        end1=3
-        end2=3
-        counter=-1
+            # Count occurrences of digits inside the current 3x3 box
+            for row in range(box_row_start, box_row_end):
+                for col in range(box_col_start, box_col_end):
+                    if board[row][col] != '.':
+                        box_frequency[board[row][col]] = (
+                            box_frequency.get(board[row][col], 0) + 1
+                        )
 
-        for k in range(len(board)):
-            if k!=0:
-                if k%3==0:
-                    start1+=3
-                    end1+=3
-                    start2=0
-                    end2=3
+            box_maps.append(box_frequency)
+
+        # Reset box boundaries for validation
+        check_row_start = 0
+        check_col_start = 0
+        check_row_end = 3
+        check_col_end = 3
+
+        # Validate every cell using the precomputed frequency tables
+        for box_index in range(len(board)):
+            if box_index != 0:
+                # Move to the corresponding 3x3 box
+                if box_index % 3 == 0:
+                    check_row_start += 3
+                    check_row_end += 3
+                    check_col_start = 0
+                    check_col_end = 3
                 else:
-                    start2+=3
-                    end2+=3
-            
-            for i in range(start1,end1):
-                for j in range(start2,end2):
-                    if board[i][j]!='.':
-                        #checking row,column and box to make sure there is no other duplicate
-                        row=r[i]
-                        col=c[j]
-                        box=b[k]
-                        if row[board[i][j]]>1 or col[board[i][j]]>1 or box[board[i][j]]>1:
+                    check_col_start += 3
+                    check_col_end += 3
+
+            for row in range(check_row_start, check_row_end):
+                for col in range(check_col_start, check_col_end):
+                    if board[row][col] != '.':
+                        # Retrieve frequency maps for the current row, column, and box
+                        row_frequency = row_maps[row]
+                        column_frequency = column_maps[col]
+                        box_frequency = box_maps[box_index]
+
+                        # If a digit appears more than once in any row, column, or box,
+                        # the Sudoku board is invalid
+                        if (
+                            row_frequency[board[row][col]] > 1
+                            or column_frequency[board[row][col]] > 1
+                            or box_frequency[board[row][col]] > 1
+                        ):
                             return False
+
         return True
