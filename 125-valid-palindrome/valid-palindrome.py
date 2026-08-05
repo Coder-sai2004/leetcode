@@ -1,12 +1,10 @@
 class Solution(object):
     def isPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        y=re.sub(r'[^A-Za-z0-9]','',s).lower()
-        x=y[::-1]
-        if y==x:
+        temp=''
+        for i in s:
+            if i.isalnum():
+                temp+=i.lower()
+        print(temp,temp[::-1])
+        if temp==temp[::-1]:
             return True
-        else:
-            return False
+        return False
