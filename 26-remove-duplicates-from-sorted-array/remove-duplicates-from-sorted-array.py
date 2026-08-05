@@ -1,9 +1,11 @@
+from collections import Counter
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        x=0
+        s=set()
+        x=Counter(nums)
         for i in nums:
-            x=nums.count(i)
-            while x>1:
+            f=x[i]
+            while f>1:
                 nums.remove(i)
-                x=x-1
+                f-=1
         return len(nums)
