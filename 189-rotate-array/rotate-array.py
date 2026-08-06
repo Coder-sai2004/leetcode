@@ -3,8 +3,9 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        m=k%len(nums)
-        l=len(nums)-m
-        a=nums[:l]
-        b=nums[l:]
-        nums[:]=b+a
+        k=k%len(nums)
+        while k>0:
+            v=nums.pop()
+            nums.insert(0,v)
+            k-=1
+        return nums
