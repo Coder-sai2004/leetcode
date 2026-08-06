@@ -4,8 +4,6 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         k=k%len(nums)
-        while k>0:
-            v=nums.pop()
-            nums.insert(0,v)
-            k-=1
-        return nums
+        nums.reverse()
+        nums[:k]=reversed(nums[:k])
+        nums[k:]=reversed(nums[k:])
