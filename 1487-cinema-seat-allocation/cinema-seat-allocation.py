@@ -1,44 +1,56 @@
-class Solution:
-    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
-        temp={}
-        temp2={}
-        ans=0
-        og=set()
-        for x in reservedSeats:
-            row=x[0]
-            seat=x[1]
-            og.add(row)
+class Solution: 
+    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int: 
+        # left and right store the left_side and right_side of booked seats for each row
+        # ans stores the total number of 4-person groups that can be assigned
+        # seats_booked_rows stores rows with at least one booked seat
+        # seats_not_booked_rows stores rows with no booked seats
+        left = {} 
+        right = {} 
+        ans = 0 
+        seats_booked_rows = set() 
+        seats_not_booked_rows = 0 
+        total_rows=n
+ 
+        for x in reservedSeats: 
+            row=x[0] 
+            seat=x[1] 
+            seats_booked_rows.add(row) 
+ 
+            # Store the maximum booked seat on the left_side (seats 1-5) for each row
+            if 1<=seat<=5: 
+                if row in left: 
+                    left[row]=max(left[row],seat) 
+                else: 
+                    left[row]=seat 
+ 
+            # Store the minimum booked seat on the right_side (seats 6-10) for each row
+            elif 6<=seat<=10: 
+                if row in right: 
+                    right[row]=min(right[row],seat) 
+                else: 
+                    right[row]=seat 
+         
+        # Check only rows with at least one booked seat for available 4-person groups
+        for row in seats_booked_rows: 
+            # Default booked boundaries when no seat is booked on either side
+            left_booked=1 
+            right_booked=10 
+ 
+            # Update left_booked and right_booked using the actual booked seats
+            if row in left: 
+                left_booked=left[row] 
+             
+            if row in right: 
+                right_booked=right[row] 
 
-            if 0<seat<6:
-                if row in temp:
-                    temp[row]=max(temp[row],seat)
-                else:
-                    temp[row]=seat
-            elif 5<seat<11:
-                if row in temp2:
-                    temp2[row]=min(temp2[row],seat)
-                else:
-                    temp2[row]=seat
-            
-        for i in og:
-            if (i in temp) or (i in temp2):
-                left=1
-                right=10
+            # Calculate available seats between the left_side and right_side booked seats
+            available=(right_booked-1)-left_booked 
 
-                if i in temp:
-                    left=temp[i]
-                
-                if i in temp2:
-                    right=temp2[i]
-
-                val=(right-1)-left
-                if (val==4 and (left!=2 and left!=4 and left!=6)) or val>4:
-                    ans+= val//4
-
-            elif i not in temp and i not in temp2:
-                ans+=2
-        
-        z=0
-        z=(n-len(og))*2
-        
-        return ans+z
+            # Check whether the available seats can fit one or more 4-person groups
+            if (available==4 and (left_booked!=2 and left_booked!=4 and left_booked!=6)) or available>4: 
+                ans+=available//4 
+ 
+        # Every completely unbooked row can fit two 4-person groups
+        seats_not_booked_rows=(total_rows-len(seats_booked_rows))*2 
+ 
+        return ans+seats_not_booked_rows
