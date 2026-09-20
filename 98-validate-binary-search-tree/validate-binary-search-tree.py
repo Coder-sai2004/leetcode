@@ -14,6 +14,7 @@ class Solution:
             res.append(node.val)
             order(node.right)
         order(root)
+        
         if len(res)!=len(set(res)):
             return False
         else:
