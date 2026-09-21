@@ -6,16 +6,21 @@
 #         self.right = right
 class Solution:
     def minDepth(self, root: TreeNode | None) -> int:
-        res = []
-        def order(root,level,res):
+        res = float('inf')
+
+
+        def order(root,level):
             if root is None:
-                return 
+                return float('inf')
+
             if root.left is None and root.right is None:
-                res.append(level)
-            order(root.left,level + 1,res)
-            order(root.right,level + 1,res)
+                return level
+
+            left = order(root.left,level + 1)
+            right = order(root.right,level + 1)
+
+            return min(left,right)
         
-        order(root,1,res)
-        if res:
-            return min(res)
-        return 0
+        if root is None:
+            return 0
+        return order(root,1)
