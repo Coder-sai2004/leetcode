@@ -6,31 +6,27 @@
 #         self.right = right
 class Solution:
     def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
-        res = []
-        ans = []
-        def deep(root,level):
+        ans = 0
+        def deep(root):
             if root is None:
-                return 
+                return 0
             
-            if root.left is None and root.right is None:
-                res.append(level)
+            left_depth = deep(root.left)
+            right_depth = deep(root.right)
 
-            deep(root.left,level + 1)
-            deep(root.right,level + 1)
+            return 1 + max(left_depth,right_depth)
 
-        def order(root,level,m):
+        def order(root,level,m,ans):
             if root is None:
-                return 
+                return ans
             
             if level == m:
-                ans.append(root.val)
+                ans += root.val
 
-            order(root.left,level + 1,m)
-            order(root.right,level + 1,m)
+            ans = order(root.left,level + 1,m,ans)
+            ans = order(root.right,level + 1,m,ans)
+
+            return ans
         
-        deep(root,1)
-        m = max(res)
-
-        order(root,1,m)
-
-        return sum(ans)
+        m = deep(root)
+        return order(root,1,m,ans)
