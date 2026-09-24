@@ -1,25 +1,19 @@
 class Solution:
     def minimumCost(self, cost1: int, cost2: int, costBoth: int, need1: int, need2: int) -> int:
-        total_cost = 0
-        combined_cost = cost1 + cost2
-        both_cost = costBoth
+        total = 0
+        pair_cost = cost1 + cost2
+        combo_cost = costBoth
+        difference = abs(need1 - need2)
 
-        # When item 1 is needed less
+        # Cover common requirements
+        total += min(need1, need2) * min(pair_cost, combo_cost)
+
+        # Extra type 2 requirement
         if need1 < need2:
-            total_cost += need1 * min(combined_cost, both_cost)
+            total += difference * min(cost2, combo_cost)
 
-            extra = need2 - need1
-            total_cost += extra * min((combined_cost - cost1), both_cost)
-            
-        # When item 2 is needed less
-        elif need2 < need1:
-            total_cost += need2 * min(combined_cost, both_cost)
+        # Extra type 1 requirement
+        if need2 < need1:
+            total += difference * min(cost1, combo_cost)
 
-            extra = need1 - need2
-            total_cost += extra * min((combined_cost - cost2), both_cost)
-
-        # When both requirements are equal
-        else:
-            total_cost += need1 * min(combined_cost, both_cost)
-
-        return total_cost
+        return total
