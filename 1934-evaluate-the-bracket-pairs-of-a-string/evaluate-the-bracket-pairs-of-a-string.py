@@ -1,47 +1,37 @@
 class Solution:
     def evaluate(self, s: str, knowledge: list[list[str]]) -> str:
         lookup = {}
-        parts = []
-        
+        result = []
+
         # Store key-value pairs
-        for entry in knowledge:
-            lookup[entry[0]] = entry[1]
-        
-        current = ''
-        index = 0
+        for item in knowledge:
+            lookup[item[0]] = item[1]
 
-        # Split text and bracketed keys
-        while index < len(s):
+        key = ''
+        pos = 0
 
-            if s[index] == '(':
-                if current != '':
-                    parts.append(current)
-                    current = ''
+        # Process each character
+        while pos < len(s):
 
-                while s[index] != ')':
-                    current += s[index]
-                    index += 1
+            if s[pos] == '(':
+                pos += 1
+                
+                # Extract key inside brackets
+                while s[pos] != ')':
+                    key += s[pos]
+                    pos += 1
 
-                index += 1
-                parts.append(current)
-                current = ''
+                # Replace key with its value
+                if key in lookup:
+                    result.append(lookup[key])
+                else:
+                    result.append('?')
+
+                key = ''
+                pos += 1
 
             else:
-                current += s[index]
-                index += 1
-        
-        if current != '':
-            parts.append(current)
+                result.append(s[pos])
+                pos += 1
 
-        # Replace keys with their values
-        for i in range(len(parts)):
-            first_char = parts[i][0]
-            key = parts[i][1:]
-
-            if first_char == '(':
-                if key in lookup:
-                    parts[i] = lookup[key]
-                else:
-                    parts[i] = '?'
-
-        return "".join(parts)
+        return "".join(result)
