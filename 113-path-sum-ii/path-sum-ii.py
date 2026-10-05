@@ -14,6 +14,7 @@ class Solution:
                 return
             
             temp.append(node.val)
+            
             if node.left is None and node.right is None:
                 if sum(temp) == t:
                     res.append(temp.copy())
