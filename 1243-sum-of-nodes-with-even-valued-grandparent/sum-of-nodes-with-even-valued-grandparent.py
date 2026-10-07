@@ -29,3 +29,12 @@ class Solution:
         
         check(root)
         return sum(res)
+
+        # #this is the code given by chatgpt
+        # def dfs(node, parent, grandparent):
+        #     if not node:
+        #         return 0
+        #     return (node.val if grandparent and grandparent.val % 2 == 0 else 0) + \
+        #            dfs(node.left, node, parent) + dfs(node.right, node, parent)
+
+        # return dfs(root, None, None)
