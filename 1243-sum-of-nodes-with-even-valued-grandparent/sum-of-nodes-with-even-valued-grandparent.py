@@ -6,29 +6,30 @@
 #         self.right = right
 class Solution:
     def sumEvenGrandparent(self, root: TreeNode | None) -> int:
-        res = []
-        def check(root):
-            if root is None:
+        values = []
+
+        def traverse(node):
+            if node is None:
                 return 
 
-            if root.val % 2 == 0:
+            # Check children of even-valued node
+            if node.val % 2 == 0:
                 
-                if root.left:
-                    a = root.left.left.val if root.left.left else 0
-                    b = root.left.right.val if root.left.right else 0
-                    res.extend([a,b])
+                if node.left:
+                    left_left = node.left.left.val if node.left.left else 0
+                    left_right = node.left.right.val if node.left.right else 0
+                    values.extend([left_left, left_right])
                 
-                if root.right:
-                    
-                    c = root.right.left.val if root.right.left else 0
-                    d = root.right.right.val if root.right.right else 0
-                    res.extend([c,d])
+                if node.right:
+                    right_left = node.right.left.val if node.right.left else 0
+                    right_right = node.right.right.val if node.right.right else 0
+                    values.extend([right_left, right_right])
 
-            check(root.left)
-            check(root.right)
+            traverse(node.left)
+            traverse(node.right)
         
-        check(root)
-        return sum(res)
+        traverse(root)
+        return sum(values)
 
         # #this is the code given by chatgpt
         # def dfs(node, parent, grandparent):
