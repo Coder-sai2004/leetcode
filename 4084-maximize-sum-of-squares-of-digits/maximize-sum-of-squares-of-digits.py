@@ -3,14 +3,19 @@ class Solution:
         s = sum
         k = 0
         ans = ""
-        while s > 0:
-            if s > 9:
-                ans += "9"
-                s -= 9
-            else:
-                ans += str(s)
-                s = 0
+        if s < 9:
+            ans += str(s)
             k += 1
+        else:
+            d = s//9
+            r = s%9
+            ans += "9"*d
+            
+            if r == 0:
+                k += d
+            else:
+                ans += str(r)
+                k += d + 1
         
         if k > num:
             return ""
