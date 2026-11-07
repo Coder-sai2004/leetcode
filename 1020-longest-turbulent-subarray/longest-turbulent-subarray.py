@@ -24,6 +24,4 @@ class Solution:
         result1 = self.check(arr , 0)
         result2 = self.check([0] + arr , 1)
 
-        print(result1,result2)
-
         return max(result1, result2)
